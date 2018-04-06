@@ -6,6 +6,24 @@ using System.Threading.Tasks;
 
 namespace ImplicitOperator
 {
+    public static class CommonExtentsion {
+        public static RegisterViewModel ToRegisterViewModel(this User user)
+        {
+            return new RegisterViewModel()
+            {
+                UserID = user.UserID,
+                FirstName = user.FirstName,
+                UserName = user.UserName,
+                Password = user.Password,
+                ConfirmPassword = user.Password,
+                Email = user.Email
+            };
+        }
+        public static List<RegisterViewModel> ToRegisterViewModels(this IEnumerable<User> users)
+        {
+            return users.Select(p => p.ToRegisterViewModel()).ToList();
+        }
+    }
     #region ViewModel
     public class RegisterViewModel
     {
@@ -27,6 +45,7 @@ namespace ImplicitOperator
                 Password = vm.Password
             };
         }
+       
     }
     #endregion
 
@@ -69,6 +88,7 @@ namespace ImplicitOperator
                 Email = user.Email
             };
         }
+        
     }
     #endregion
 
@@ -90,6 +110,9 @@ namespace ImplicitOperator
             User user = new User();
             user = registerVM;
             registerVM = user;
+            List<RegisterViewModel> registerViewModels = new List<RegisterViewModel>();
+            IEnumerable<User> users = new List<User>();
+            registerViewModels = users.ToRegisterViewModels();
 
         }
     }
